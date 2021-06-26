@@ -37,6 +37,38 @@ partnerRouter.route("/")
     .catch(err => next(err));
   });
 
+partnerRouter.route("/deletePartner")
+.delete((req, res, next) => {
+  Partner.findOneAndDelete(req.body.name)
+  .then(response => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json(response);
+  })
+  .catch(err => next(err));
+});
+
+partnerRouter.route("/getFeaturedPartnersCount")
+.get((req, res, next) => {
+  Partner.count({featured: true})
+ .then(count => {
+   res.statusCode = 200;
+   res.setHeader('Content-Type', 'application/json');
+   res.json(count);
+ })
+ .catch(err => next(err));
+})
+
+.get(function(req, res) {
+  detail.count({}, function(err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json("Number of documents in the collection: " + result);
+    }
+  });
+});
+
 partnerRouter.route("/:partnerId")
   .get((req, res, next) => {
     Partner.findById(req.params.partnerId)
@@ -73,5 +105,6 @@ partnerRouter.route("/:partnerId")
     })
     .catch(err => next(err));
   });
+
 
 module.exports = partnerRouter;
