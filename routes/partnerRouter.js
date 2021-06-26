@@ -59,16 +59,6 @@ partnerRouter.route("/getFeaturedPartnersCount")
  .catch(err => next(err));
 })
 
-.get(function(req, res) {
-  detail.count({}, function(err, result) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.json("Number of documents in the collection: " + result);
-    }
-  });
-});
-
 partnerRouter.route("/:partnerId")
   .get((req, res, next) => {
     Partner.findById(req.params.partnerId)
